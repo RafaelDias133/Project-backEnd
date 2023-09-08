@@ -7,18 +7,54 @@
     <title>Document</title>
   </head>
   <body>
-    <form action="/create" method="post">
-      <input type="text"name="task" id="task" placeholder="insira uma tarefa"/>
-      <button type="submit" id="addbutton"></button>
 
-      <ul>
-        <%tasksList.forEach((task) =>{ %>
-        <li>
-          <%= task.task %> | <%= task.date %>
-        </li>
-      <%}) %>
-    </ul>
-    </form>
+    <hearder> 
+
+
+      <% if (task == null) { %>
+      <form action="/create" method="post">
+        <input type="text"name="task" id="task" placeholder="insira uma tarefa"/>
+        <button type="submit" id="addbutton">adicionar</button>
+
+      </form>
+  
+      <% }else{ %>
+      <form action="/updateOne/<%= task._id %>" method="post">
+        <input type="text"name="task" id="task" value="<%=task.task%>"/>
+        <button type="submit" id="addbutton">atualizar</button>
+      </form>
+      <% } %>
+      </hearder>
+     
+     
+     <section id="tasks">
+        <ul>
+          <%tasksList.forEach((task)=>{ %>
+          <li>
+
+          
+            <%= task.task %> | <%= task.date %>
+            <a href="/getById/<%= task._id %>/update">editar</a>
+            <a href="/getById/<%= task._id %>/delete">apagar</a>
+         
+          </li>
+        <%}) %>
+      </ul>
+      </section>
+  <% if(taskDelete != null) {%>
+<section id="modal">
+  <div id="card">
+    <a href="">x</a>
+    <h2>Confirmaçao</h2>
+    <hr>
+    <p>Deseja realmente apagar a tarefa:<%= taskDelete.task %>?</p>
+    <a href="/">Nao</a>
+    <a href="/deleteOne/<%= taskDelete._id %>">sim</a>
+  </div>
+</section>
+ <% } %>
+
+
   </body>
   <script src="script.js"></script>
 </html>
